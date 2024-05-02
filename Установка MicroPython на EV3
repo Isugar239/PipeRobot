@@ -1,0 +1,73 @@
+Установка и настройка 
+MicroPython для Lego EV3
+Создание диска с образом, базовые программы
+
+1.	Найдите Micro-SD карту
+2.	https://assets.education.lego.com/v3/assets/blt293eea581807678a/blt9df409c9a182ab9c/5f88191a6ffd1b42dc42b8af/ev3micropythonv200sdcardimage.zip?locale=en-us – ссылка на скачивание образа диска
+3.	Используя программу типа Win32Imager, взять из скачанного архива ISO-файл и превратить в FLASH-файл.
+4.	Загрузить его на Micro-SD карту и вставить в слот на EV3.
+5.	Готово!
+
+Программирование
+Программировать будем в среде Visual studio code.
+1.	Установите библиотеку LEGO® MINDSTORMS® EV3 MicroPython и ev3dev-browser    
+2.	Появилась новая вкладка. Откроем её. Там есть примеры программ. Можете использовать готовые примеры, но сейчас расскажу про базовые навыки программирования.
+EV3 Блок:
+В самом начале каждой программы после импорта библиотек идет ev3 = EV3Brick() . Связано это с синтаксисом Python, и теперь нам вместо имени контроллера придётся писать 3 символа. 
+
+Базовая программа:
+#!/usr/bin/env pybricks-micropython
+from pybricks.hubs import EV3Brick
+from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
+                                 InfraredSensor, UltrasonicSensor, GyroSensor)
+from pybricks.nxtdevices import (LightSensor)
+from pybricks.parameters import Port, Stop, Direction, Button, Color
+from pybricks.tools import wait, StopWatch, DataLog
+from pybricks.robotics import DriveBase
+from pybricks.media.ev3dev import SoundFile, ImageFile
+ev3 = EV3Brick()
+ev3.speaker.beep()
+Print(“Hello world”)
+Данный код воспроизведет на контроллере гудок и напишет в ТЕРМИНАЛ Hello world. Функция print() может выводить данные только в терминал, чтобы использовать экран контроллера используется функция ev3.screen.print(”Hello world!”) или если это переменная то (count)
+Моторы запускаются командой MotorA.run(0-1000), либо реже MotorA.dc(0-100). Первая функция Запускает с угловой скоростью, а вторая со скоростью вращения.
+#!/usr/bin/env pybricks-micropython
+from pybricks.hubs import EV3Brick
+from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
+                                 InfraredSensor, UltrasonicSensor, GyroSensor)
+from pybricks.nxtdevices import (LightSensor)
+from pybricks.parameters import Port, Stop, Direction, Button, Color
+from pybricks.tools import wait, StopWatch, DataLog
+from pybricks.robotics import DriveBase
+from pybricks.media.ev3dev import SoundFile, ImageFile
+ev3 = EV3Brick()
+MotorA = Motor(Port.A)
+MotorA.run(500)
+Wait(1000)
+Функция wait() ждет заданное количество милисекунд
+Регуляторы
+Для начала научимся считывать датчики и рассчитывать управляющее воздействие u 
+#!/usr/bin/env pybricks-micropython
+from pybricks.hubs import EV3Brick
+from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
+                                 InfraredSensor, UltrasonicSensor, GyroSensor)
+from pybricks.nxtdevices import (LightSensor)
+from pybricks.parameters import Port, Stop, Direction, Button, Color
+from pybricks.tools import wait, StopWatch, DataLog
+from pybricks.robotics import DriveBase
+from pybricks.media.ev3dev import SoundFile, ImageFile
+ev3 = EV3Brick() 
+color1 = LightSensor(Port.S1) 
+color2 = LightSensor(Port.S2) 
+motorB = Motor(Port.B) 
+motorC = Motor(Port.C) 
+err = 0
+while True:
+	err = color1.reflection() – color2.reflection()
+	u = err * 1 # 1 – это коэффицент, который можно менять
+	motorB.run(10*(v + u))
+	motorC.run(10*(v - u))
+wait(1)
+Простенький код, который позволяет поехать по линии. Синтаксис функции color.reflection() необходимо очень строго соблюдать, т к у датчика цвета ev3 есть 3 режима: reflection, ambient и color. Скобочки же нам нужны, иначе интерпретатор подумает, что мы хотим узнать не значение, а режим.
+
+
+
