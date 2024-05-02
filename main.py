@@ -31,7 +31,6 @@ def read(): #read the current truba
         alpha += 36
         while motorA.angle() < alpha:
             wait(1)
-        print(s)
         ev3.speaker.beep()
         if s > sk:
             f.write(str(i) + " ") 
@@ -46,7 +45,6 @@ def read(): #read the current truba
         alpha -= 36
         while motorA.angle() > alpha:
             wait(1)
-        print(s)
         ev3.speaker.beep()
         if s > sk:
             f.write(str(i)+ " ") 
@@ -56,14 +54,13 @@ def read(): #read the current truba
     motorA.stop()
     f.write("\n")
     ev3.speaker.play_file("ready.wav")  
-
+eMAX = 300
 v = 700
-print(color.reflection())
 for i in range(1, 2):
     wait(250)
-    while motorA.angle() < 4300:
+    while motorB.angle() < eMAX:
         motorB.run(v), motorC.run(v), motorD.run(v)
-        print(color.reflection())
+        print(motorB.angle())
         wait(200)
         motorB.run(0), motorC.run(0), motorD.run(0)
         read()
@@ -71,7 +68,7 @@ for i in range(1, 2):
     ev3.speaker.beep()
 v = -700
 motorB.run(v), motorC.run(v), motorD.run(v)
-while enc > 30:
+while motorB.angle() > 30:
     wait(1)
 motorB.run(0), motorC.run(0), motorD.run(0)
 f.close()
