@@ -9,7 +9,7 @@ from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 '''
 Project: робот для перемещения, обследования и визуализации труб. Основной и единственный робот
-Programmer: Ivan Zakharov
+Programmer: Ivan Zakharov, constructor: Eric Kovalev
 '''
 ev3 = EV3Brick() #for fast request
 color = LightSensor(Port.S1) #for fast request
