@@ -33,7 +33,9 @@ def read(): #read the current truba
             wait(1)
         ev3.speaker.beep()
         if s > sk:
-            f.write(str(i) + " ") 
+            f.write(str(1)) 
+        else 
+            f.write(str(0))
 
     while motorA.angle() > 0:
         motorA.run(-550)
@@ -47,7 +49,9 @@ def read(): #read the current truba
             wait(1)
         ev3.speaker.beep()
         if s > sk:
-            f.write(str(i)+ " ") 
+            f.write(str(1)) 
+        else 
+            f.write(str(0)) 
 
     while motorA.angle() < 0:
         motorA.run(550)
@@ -72,3 +76,14 @@ while motorB.angle() > 30:
     wait(1)
 motorB.run(0), motorC.run(0), motorD.run(0)
 f.close()
+with open('data.txt', 'r+') as f:
+    len = len(f.readlines())
+    print(len)
+    for i in range(1, len+1):
+        f.seek(0, i-1)
+        number = f.readline()
+        first = number[:25]
+        second = number[25:50]
+        new = first + second[::-1]
+        with open('file.txt', 'a+') as fo:
+            fo.write(new+'\n')
