@@ -4,11 +4,15 @@ let phrases = [
   { image: 'https://i.postimg.cc/cHv2gcLf/1715011656691.jpg' },
 ];
 
+let randIndexOld = null;
 function getRandomElement(arr) {
   let randIndex = Math.floor(Math.random() * arr.length);
+  while (randIndex === randIndexOld) {
+    randIndex = Math.floor(Math.random() * arr.length);
+  }
+  randIndexOld = randIndex;
   return arr[randIndex];
 }
-
 let button = document.querySelector('.button');
 let phrase = document.querySelector('.phrase');
 let advice = document.querySelector('.advice');
