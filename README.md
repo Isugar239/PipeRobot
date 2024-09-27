@@ -1,1 +1,1 @@
-nothing useless
+Just github of project "Робот для обследования, визуализации и очистки труб"
