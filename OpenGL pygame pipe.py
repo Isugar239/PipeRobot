@@ -1,3 +1,4 @@
+#Author's original github link - https://github.com/Ericdin2010/OpenGL
 import os
 import sys
 
